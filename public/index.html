@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-slate-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AgroSync - Compra Coletiva Direto do Produtor</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#16a34a',
+                            600: '#15803d',
+                            700: '#166534',
+                            900: '#14532d',
+                        },
+                        amberCustom: {
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Desabilitar seleção de texto para parecer app nativo */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 99px;
+        }
+        /* Glassmorphism e sombras elegantes */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .tech-drawer {
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-950 text-slate-100 font-sans antialiased flex flex-col justify-between overflow-x-hidden">
+
+    <!-- APP WRAPPER (CONTAINER MOBILE CENTRALIZADO) -->
+    <div class="max-w-md w-full mx-auto min-h-screen flex flex-col bg-slate-900 border-x border-slate-800 shadow-2xl relative">
+
+        <!-- 1. HEADER DO USUÁRIO (ESTILO CONSUMIDOR) -->
+        <header class="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-800/80 px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Localização & Boas-Vindas -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-500 to-emerald-700 flex items-center justify-center text-slate-950 shadow-lg shadow-brand-500/20 font-bold">
+                        <i data-lucide="sprout" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1 text-[11px] font-semibold text-brand-400">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i>
+                            <span>Atibaia / SP • Raio 15km</span>
+                        </div>
+                        <h1 class="text-base font-extrabold text-white tracking-tight leading-tight">AgroSync Coleta</h1>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <div class="rounded-xl bg-slate-800 border border-slate-700 px-3 py-2 text-xs text-slate-300">
+                        <i data-lucide="shopping-basket" class="w-4 h-4 inline mr-1 text-brand-400"></i>
+                        <span id="headerCartCount">0 itens</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner Informativo de Compra Coletiva -->
+            <div class="mt-3 bg-gradient-to-r from-brand-900/40 via-emerald-900/30 to-slate-800 border border-brand-500/30 rounded-xl p-2.5 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                    <span class="p-1 rounded-lg bg-brand-500/20 text-brand-400">
+                        <i data-lucide="users" class="w-4 h-4"></i>
+                    </span>
+                    <span class="text-slate-300">Grupos de Compra Direta: <strong>-45% vs Varejo</strong></span>
+                </div>
+                <span class="text-[10px] bg-brand-500/20 text-brand-300 font-extrabold px-2 py-0.5 rounded-full border border-brand-500/30">ATIVOS</span>
+            </div>
+        </header>
+
+        <!-- 2. CONTEÚDO PRINCIPAL DO CONSUMIDOR (TELA HOME) -->
+        <main class="flex-1 p-4 space-y-5" style="padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px));">
+
+            <!-- Carrossel / Banner Promocional Agrícola -->
+            <section class="relative rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+                <img src="https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=800&q=80" alt="Agricultura Familiar" class="w-full h-36 object-cover opacity-80">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+                <div class="absolute bottom-3 left-3 right-3 flex justify-between items-end">
+                    <div>
+                        <span class="text-[10px] uppercase font-extrabold bg-amber-500 text-slate-950 px-2 py-0.5 rounded-md">Oportunidade da Safra</span>
+                        <h2 class="text-lg font-bold text-white leading-tight mt-1">Lotes Limitados de Pequenos Produtores</h2>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção única de produtos -->
+            <section class="flex items-center gap-2 pb-1">
+                <i data-lucide="shopping-basket" class="w-4 h-4 text-brand-400"></i>
+                <h2 class="text-sm font-extrabold uppercase tracking-wider text-brand-300">Produtos</h2>
+            </section>
+
+            <!-- CATÁLOGO DE PRODUTOS PARA COMPRA COLETIVA -->
+            <section class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider">Produtos disponíveis</h3>
+                        <p class="text-xs text-slate-400 mt-1">Selecione os produtos e as quantidades desejadas</p>
+                    </div>
+                    <span class="text-[11px] text-brand-400 font-semibold">6 ofertas</span>
+                </div>
+
+                <div id="productGrid" class="grid grid-cols-1 gap-3">
+                    <!-- Os produtos são inseridos pelo JavaScript -->
+                </div>
+            </section>
+
+            <!-- RESUMO DO CARRINHO -->
+            <section id="cartSection" style="scroll-margin-top: 120px; scroll-margin-bottom: 110px" class="glass-card rounded-2xl p-4 space-y-3 border border-brand-500/30">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-4 h-4 text-brand-400"></i>
+                        Sua seleção
+                    </h3>
+                    <span id="cartItemsLabel" class="text-xs text-slate-400">Nenhum item selecionado</span>
+                </div>
+                <div id="cartItems" class="space-y-2 text-xs text-slate-300">
+                    <p class="text-slate-500">Adicione produtos para montar seu pedido.</p>
+                </div>
+                <div class="border-t border-slate-700 pt-3 flex items-center justify-between">
+                    <span class="font-semibold text-slate-300">Total</span>
+                    <strong id="cartTotal" class="text-xl text-emerald-400">R$ 0,00</strong>
+                </div>
+                <button id="checkoutButton" onclick="finishOrder()" disabled class="w-full py-3 rounded-xl font-extrabold text-slate-950 bg-gradient-to-r from-brand-400 to-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed hover:brightness-110 transition">
+                    Finalizar seleção
+                </button>
+            </section>
+
+
+        </main>
+
+        <!-- AVISOS DE CONFIRMAÇÃO PARA O USUÁRIO -->
+        <div id="userNotificationToast" class="fixed top-16 left-4 right-4 max-w-md mx-auto z-50 hidden transition-all duration-300 transform -translate-y-2">
+            <div id="toastContainer" class="p-3.5 rounded-2xl shadow-2xl backdrop-blur border flex items-start gap-3">
+                <div id="toastIconBg" class="p-2 rounded-xl shrink-0">
+                    <i id="toastIcon" class="w-5 h-5"></i>
+                </div>
+                <div class="flex-1 text-xs">
+                    <h5 id="toastTitle" class="font-extrabold text-sm"></h5>
+                    <p id="toastMessage" class="text-[11px] opacity-90 mt-0.5 leading-snug font-mono"></p>
+                </div>
+                <button onclick="hideToast()" class="text-slate-400 hover:text-white">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 5. TELA INFERIOR DO CONSUMIDOR (BARRA DE NAVEGAÇÃO MOBILE) -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur border-t border-slate-800 py-2 px-6 z-30 max-w-md mx-auto" style="padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));">
+            <div class="flex items-center justify-around text-xs">
+                <button class="flex flex-col items-center gap-1 text-brand-400 font-bold">
+                    <i data-lucide="store" class="w-5 h-5"></i>
+                    <span class="text-[10px]">Início</span>
+                </button>
+                <button class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                    <span class="text-[10px]">Buscar</span>
+                </button>
+                <button class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 relative">
+                    <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                    <span class="text-[10px]">Pedidos</span>
+                    <span id="navCartCount" class="absolute -top-1 -right-1 w-4 h-4 bg-brand-500 text-slate-950 text-[9px] font-black rounded-full flex items-center justify-center">0</span>
+                </button>
+                <button onclick="document.getElementById('cartSection').scrollIntoView({behavior:'smooth'})" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
+                    <i data-lucide="shopping-basket" class="w-5 h-5"></i>
+                    <span class="text-[10px]">Carrinho</span>
+                </button>
+            </div>
+        </nav>
+
+    </div>
+
+    <!-- SCRIPT DO CATÁLOGO E DO CARRINHO -->
+    <script>
+        let products = [];
+
+        const cart = {};
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            renderCart();
+            if (window.lucide) lucide.createIcons();
+            await loadProducts();
+        });
+
+        // As quantidades vêm do banco SQLite pela API.
+        // O servidor ajusta uma única vez o estoque inicial para 4 unidades.
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products');
+                if (!response.ok) throw new Error('Não foi possível carregar os produtos.');
+                products = await response.json();
+                renderProducts();
+                renderCart();
+                if (window.lucide) lucide.createIcons();
+            } catch (error) {
+                showToast(false, 'Erro ao carregar', 'Inicie a aplicação pelo comando npm start para conectar ao banco de dados.');
+                document.getElementById('productGrid').innerHTML =
+                    '<p class="text-sm text-rose-300">Não foi possível conectar ao banco de dados. Inicie o servidor da aplicação.</p>';
+            }
+        }
+
+        function formatPrice(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = products.map(product => `
+                <article class="glass-card rounded-2xl p-3 border border-slate-800 flex gap-3">
+                    <img src="${product.image}" alt="${product.name}" class="w-24 h-24 rounded-xl object-cover border border-slate-700 shrink-0">
+                    <div class="min-w-0 flex-1 flex flex-col">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-[9px] uppercase tracking-wider font-extrabold text-brand-400 bg-brand-500/10 border border-brand-500/20 px-2 py-0.5 rounded">${product.category}</span>
+                            <span class="text-[10px] text-slate-500">${product.quantity} disponíveis</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white mt-1">${product.name}</h4>
+                        <p class="text-[10px] text-slate-400 mt-0.5">${product.description}</p>
+                        <div class="mt-auto pt-2 flex items-end justify-between gap-2">
+                            <div>
+                                <strong class="text-base text-emerald-400">${formatPrice(product.price)}</strong>
+                                <span class="block text-[10px] text-slate-500 line-through">${formatPrice(product.oldPrice)}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="changeQuantity(${product.id}, -1)" aria-label="Diminuir ${product.name}" class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 text-white font-bold">−</button>
+                                <span id="quantity-${product.id}" class="w-5 text-center text-xs font-bold">0</span>
+                                <button onclick="changeQuantity(${product.id}, 1)" aria-label="Adicionar ${product.name}" class="w-8 h-8 rounded-lg bg-brand-500 text-slate-950 font-bold">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function changeQuantity(productId, change) {
+            const product = products.find(item => item.id === productId);
+            const current = cart[productId] || 0;
+            const next = Math.max(0, Math.min(product.quantity, current + change));
+
+            if (next === 0) delete cart[productId];
+            else cart[productId] = next;
+
+            document.getElementById(`quantity-${productId}`).textContent = next;
+            renderCart();
+        }
+
+        function renderCart() {
+            const selected = products.filter(product => cart[product.id]);
+            const count = selected.reduce((sum, product) => sum + cart[product.id], 0);
+            const total = selected.reduce((sum, product) => sum + product.price * cart[product.id], 0);
+
+            document.getElementById('headerCartCount').textContent = `${count} ${count === 1 ? 'item' : 'itens'}`;
+            document.getElementById('navCartCount').textContent = count;
+            document.getElementById('cartItemsLabel').textContent = count ? `${count} ${count === 1 ? 'unidade selecionada' : 'unidades selecionadas'}` : 'Nenhum item selecionado';
+            document.getElementById('cartTotal').textContent = formatPrice(total);
+            document.getElementById('checkoutButton').disabled = count === 0;
+
+            document.getElementById('cartItems').innerHTML = selected.length
+                ? selected.map(product => `
+                    <div class="flex justify-between gap-3">
+                        <span>${cart[product.id]} × ${product.name}</span>
+                        <strong class="text-slate-200 whitespace-nowrap">${formatPrice(product.price * cart[product.id])}</strong>
+                    </div>
+                `).join('')
+                : '<p class="text-slate-500">Adicione produtos para montar seu pedido.</p>';
+        }
+
+        async function finishOrder() {
+            const selected = products
+                .filter(product => cart[product.id])
+                .map(product => ({ productId: product.id, quantity: cart[product.id] }));
+            if (!selected.length) return;
+
+            const button = document.getElementById('checkoutButton');
+            button.disabled = true;
+            try {
+                const response = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items: selected })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Não foi possível concluir a seleção.');
+
+                Object.keys(cart).forEach(id => delete cart[id]);
+                await loadProducts();
+                showToast(true, 'Seleção realizada!', `Pedido #${result.orderId} registrado. Total: ${formatPrice(result.total)}. O estoque foi atualizado.`);
+            } catch (error) {
+                showToast(false, 'Não foi possível concluir', error.message);
+                button.disabled = false;
+                renderCart();
+            }
+        }
+
+        function showToast(isSuccess, title, message) {
+            const toast = document.getElementById('userNotificationToast');
+            const container = document.getElementById('toastContainer');
+            const iconBg = document.getElementById('toastIconBg');
+            const icon = document.getElementById('toastIcon');
+
+            container.className = 'p-3.5 rounded-2xl shadow-2xl backdrop-blur border flex items-start gap-3 ' +
+                (isSuccess ? 'bg-slate-900/95 border-emerald-500/40 text-emerald-100' : 'bg-slate-900/95 border-rose-500/40 text-rose-100');
+            iconBg.className = 'p-2 rounded-xl shrink-0 ' + (isSuccess ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400');
+            icon.setAttribute('data-lucide', isSuccess ? 'check-circle' : 'alert-triangle');
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+            if (window.lucide) lucide.createIcons();
+            toast.classList.remove('hidden');
+        }
+
+        function hideToast() {
+            document.getElementById('userNotificationToast').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
